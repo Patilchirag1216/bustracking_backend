@@ -11,6 +11,16 @@ export const getBuses = async (req, res) => {
   }
 };
 
+export const getAvailableBuses = async (req, res) => {
+  try {
+    const buses = await Bus.find({ isOccupied: false }); // Example condition for availability
+    res.json(buses);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  } 
+};
+
 // ADD a new bus
 export const addBus = async (req, res) => {
   try {
