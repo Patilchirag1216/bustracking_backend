@@ -1,8 +1,16 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
+import { getUsers, deleteUser, updateRole } from "../controllers/userController.js";
+// import userController from "../controllers/userController.js";
 
 const router = express.Router();
+// const { getUsers, deleteUser, updateRole } = import ("../controllers/userController");
+// const { getUsers, deleteUser, updateRole } = userController;
+
+router.get("/", getUsers);
+router.delete("/:id", deleteUser);
+router.put("/:id/access", updateRole);
 
  
 router.post("/register", async (req, res) => {
@@ -64,6 +72,8 @@ router.post("/login", async (req, res) => {
       .json({ success: false, message: "Server error", error: err.message });
   }
 });
+
+
 
 
 export default router;
