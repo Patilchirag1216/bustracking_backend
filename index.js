@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import { Server } from "socket.io";
 import http from "http";
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 const io = new Server(server, {
   cors: {
