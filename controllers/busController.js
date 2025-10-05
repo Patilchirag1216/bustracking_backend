@@ -12,14 +12,31 @@ export const getBuses = async (req, res) => {
   }
 };
 
+// Get available buses for a conductor
 export const getAvailableBuses = async (req, res) => {
   try {
-    const buses = await Bus.find({ isOccupied: false }); // Example condition for availability
+    const userId = req.query.userId; // 👈 pass current conductor id from frontend
+
+    let buses;
+
+    if (userId) {
+      // Show unoccupied buses + the bus assigned to THIS conductor
+      buses = await Bus.find({
+        $or: [
+          { isOccupied: false },
+          { conductorId: userId }
+        ]
+      });
+    } else {
+      // Fallback: only unoccupied
+      buses = await Bus.find({ isOccupied: false });
+    }
+
     res.json(buses);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
-  } 
+  }
 };
 
 // ADD a new bus
